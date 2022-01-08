@@ -82,7 +82,7 @@ Demo is only available in mujoco version 2.0 or higher.
       $ pip install -U 'mujoco-py<2.1,>=2.0'
       ~~~
 
-    - for version 2.1
+    - for version 2.1 (mujoco-version: 2.0.2.13)
 
       ~~~
       $ pip install -U 'mujoco-py<2.2,>=2.1'
@@ -141,8 +141,6 @@ Demo is only available in mujoco version 2.0 or higher.
 
 ### Install Mujoco-Sim
 
-It will be updated soon.
-
 ~~~
 $ cd ~/
 $ git clone https://github.com/jdj2261/lets-do-mujoco.git
@@ -155,15 +153,20 @@ $ git clone --recurse-submodules https://github.com/jdj2261/pykin.git
 
 ## Demo
 
-It will be updated soon.
-
 ### 1. Load robot sim
 
-
-
+~~~
+$ cd demos/panda
+$ python 01_panda_load.py
+~~~
 
 ### 2. Joint Position Control
 
-
+~~~
+$ cd demos/panda
+$ python 02_jpos_control.py
+~~~
 
 ### 3. Pick and Place
+
+It will be updated soon.

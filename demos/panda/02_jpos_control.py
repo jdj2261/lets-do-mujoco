@@ -4,13 +4,14 @@ import os, sys
 
 sim_path = os.path.dirname(os.path.dirname(os.getcwd()))
 sys.path.append(sim_path)
+
+# If not installed pykin library, append pykin to sys.path
 pykin_path = sim_path+"/pykin/"
 sys.path.append(pykin_path)
 
 from models.world import MujocoWorldBase
 from models.robots import Panda
 from models.arenas import BinsArena
-from models.objects import CanObject
 from models.grippers import PandaGripper
 from controllers.joint_pos import JointPositionController
 from utils.common import load_pykin, get_result_qpos
@@ -43,41 +44,14 @@ def main():
     transformations = panda_robot.forward_kin(desired_qpos)
     eef_pose = transformations[panda_robot.eef_name].pose
     result_qpos = get_result_qpos(panda_robot, init_qpos, eef_pose)
-    print(result_qpos)
 
     jpos_controller = JointPositionController(sim=sim, eef_name=panda_robot.eef_name)
     jpos_controller.kp = 20
-
-    common_name1 = "rightfinger"
-    common_name2 = "rightfinger"
-    common_name3 = "right_gripper"
     
     while True:
         torque = jpos_controller.run_controller(sim, result_qpos)
         sim.data.ctrl[jpos_controller.qpos_index] = torque
-        # sim.data.ctrl[jpos_controller.gripper_index] = [-0.04, -0.04]
         sim.data.ctrl[jpos_controller.gripper_index] = [0.04, -0.04]
-        current1 = np.round(np.array(jpos_controller.sim.data.body_xpos[jpos_controller.sim.model.body_name2id(common_name2)]), 6)
-        current2 = np.round(panda_robot.forward_kin(jpos_controller.q_pos)[common_name2].pos,6)
-        
-        gripper1 = np.round(np.array(jpos_controller.sim.data.body_xpos[jpos_controller.sim.model.body_name2id(common_name3)]), 6)
-        gripper2 = np.round(panda_robot.forward_kin(jpos_controller.q_pos)[common_name3].pos,6)
-        
-        # print("current: ", end="")
-        # print(["{:0.6f}".format(q) for q in current1])
-        # print("Robot: ", end="")
-        # print(["{:0.6f}".format(q) for q in current2])
-        # print()
-
-        # print("current: ", end="")
-        # print(["{:0.6f}".format(q) for q in gripper1])
-        # print("Robot: ", end="")
-        # print(["{:0.6f}".format(q) for q in gripper2])
-        # print()
-
-        # print(f"Current2 : {np.round(np.array(sim.data.body_xpos[sim.model.body_name2id(common_name2)]), 6)}")
-        # print(f"Robot2 : {np.round(panda_robot.forward_kin(jpos_controller.q_pos)[common_name2].pos,6)}")
-        # print()
 
         sim.step()
         viewer.render()
