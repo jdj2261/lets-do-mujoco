@@ -1,0 +1,86 @@
+<mujoco model="ur5e">
+    <actuator>
+        <!-- Physical limits of the actuator. -->
+        <!-- Values taken from https://www.universal-robots.com/articles/ur-articles/max-joint-torques/ -->
+        <motor ctrllimited="true" ctrlrange="-150.0 150.0" joint="ur5e_shoulder_pan_joint" name="ur5e_torq_j1"/>
+        <motor ctrllimited="true" ctrlrange="-150.0 150.0" joint="ur5e_shoulder_lift_joint" name="ur5e_torq_j2"/>
+        <motor ctrllimited="true" ctrlrange="-150.0 150.0" joint="ur5e_elbow_joint" name="ur5e_torq_j3"/>
+        <motor ctrllimited="true" ctrlrange="-28.0 28.0" joint="ur5e_wrist_1_joint" name="ur5e_torq_j4"/>
+        <motor ctrllimited="true" ctrlrange="-28.0 28.0" joint="ur5e_wrist_2_joint" name="ur5e_torq_j5"/>
+        <motor ctrllimited="true" ctrlrange="-28.0 28.0" joint="ur5e_wrist_3_joint" name="ur5e_torq_j6"/>
+    </actuator>
+    <asset>
+        <mesh name="ur5e_base" file="meshes/base.stl" />
+        <mesh name="ur5e_shoulder" file="meshes/shoulder.stl" />
+        <mesh name="ur5e_upperarm" file="meshes/upperarm.stl" />
+        <mesh name="ur5e_forearm" file="meshes/forearm.stl" />
+        <mesh name="ur5e_wrist1" file="meshes/wrist1.stl" />
+        <mesh name="ur5e_wrist2" file="meshes/wrist2.stl" />
+        <mesh name="ur5e_wrist3" file="meshes/wrist3.stl" />
+        <mesh name="ur5e_base_vis" file="meshes/base_vis.stl" />
+        <mesh name="ur5e_shoulder_vis" file="meshes/shoulder_vis.stl" />
+        <mesh name="ur5e_upperarm_vis" file="meshes/upperarm_vis.stl" />
+        <mesh name="ur5e_forearm_vis" file="meshes/forearm_vis.stl" />
+        <mesh name="ur5e_wrist1_vis" file="meshes/wrist1_vis.stl" />
+        <mesh name="ur5e_wrist2_vis" file="meshes/wrist2_vis.stl" />
+        <mesh name="ur5e_wrist3_vis" file="meshes/wrist3_vis.stl" />
+        <mesh name="pedestal" file="meshes/pedestal.stl" />
+    </asset>
+    <worldbody>
+        <body name="ur5e_base_link" pos="0 0 0">
+            <!-- robot view -->
+            <camera mode="fixed" name="ur5e_robotview" pos="1.0 0 0.4" quat="0.653 0.271 0.271 0.653"/>
+            <inertial diaginertia="0 0 0" mass="0" pos="0 0 0"/>
+            <!-- mount attached here -->
+            <body name="pedestal" pos="0 0 0">
+				<inertial diaginertia="6.0869 5.81635 4.20915" mass="60.864" pos="0 0 0" quat="0.659267 -0.259505 -0.260945 0.655692"/>
+				<geom conaffinity="0" contype="0" group="1" mesh="pedestal" pos="0.26 0.345 -0.91488" quat="0.5 0.5 -0.5 -0.5" rgba="0.2 0.2 0.2 1" type="mesh" name="pedestal_col1"/>
+				<geom pos="-0.02 0 -0.29" rgba="0.2 0.2 0.2 1" size="0.18 0.31" type="cylinder" name="pedestal_col2"/>
+			</body>
+            <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_base_vis" />
+            <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_base" name="ur5e_base_col"/>
+            <body name="ur5e_shoulder_link" pos="0 0 0.163">
+                <inertial pos="0 0 0" mass="3.7" diaginertia="0.0102675 0.0102675 0.00666" />
+                <joint name="ur5e_shoulder_pan_joint" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" damping="0.001" frictionloss="0.01" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_shoulder_vis" name="ur5e_shoulder_visual" />
+                <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_shoulder" name="ur5e_shoulder_col" />
+                <body name="ur5e_upper_arm_link" pos="0 0.138 0" quat="0.707107 0 0.707107 0">
+                    <inertial pos="0 0 0.2125" mass="8.393" diaginertia="0.133886 0.133886 0.0151074" />
+                    <joint name="ur5e_shoulder_lift_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-6.28319 6.28319" damping="0.001" frictionloss="0.01" />
+                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_upperarm_vis" name="ur5e_upperarm_visual" />
+                    <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_upperarm" name="ur5e_upperarm_col"/>
+                    <body name="ur5e_forearm_link" pos="0 -0.131 0.425">
+                        <inertial pos="0 0 0.196" mass="2.275" diaginertia="0.0311796 0.0311796 0.004095" />
+                        <joint name="ur5e_elbow_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-3.14159 3.14159" damping="0.001" frictionloss="0.01" />
+                        <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_forearm_vis" name="ur5e_forearm_visual" />
+                        <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_forearm" name="ur5e_forearm_col"/>
+                        <body name="ur5e_wrist_1_link" pos="0 0 0.392" quat="0.707107 0 0.707107 0">
+                            <inertial pos="0 0.127 0" mass="1.219" diaginertia="0.0025599 0.0025599 0.0021942" />
+                            <joint name="ur5e_wrist_1_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-6.28319 6.28319" damping="0.001" frictionloss="0.01" />
+                            <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_wrist1_vis" name="ur5e_wrist1_visual" />
+                            <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_wrist1" name="ur5e_wrist1_col" />
+                            <body name="ur5e_wrist_2_link" pos="0 0.127 0">
+                                <inertial pos="0 0 0.1" mass="1.219" diaginertia="0.0025599 0.0025599 0.0021942" />
+                                <joint name="ur5e_wrist_2_joint" pos="0 0 0" axis="0 0 1" limited="true" range="-6.28319 6.28319" damping="0.001" frictionloss="0.01" />
+                                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_wrist2_vis" name="ur5e_wrist2_visual" />
+                                <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_wrist2" name="ur5e_wrist2_col" />
+                                <body name="ur5e_wrist_3_link" pos="0 0 0.1">
+                                    <inertial pos="0 0.0771683 0" quat="0.707107 0 0 0.707107" mass="0.1889" diaginertia="0.000132134 9.90863e-05 9.90863e-05" />
+                                    <joint name="ur5e_wrist_3_joint" pos="0 0 0" axis="0 1 0" limited="true" range="-6.28319 6.28319" damping="0.001" frictionloss="0.01" />
+                                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.7 0.7 0.7 1" quat="0.707 0.707 0 0" mesh="ur5e_wrist3_vis" name="ur5e_wrist3_visual" />
+                                    <geom type="mesh" rgba="0.7 0.7 0.7 1" mesh="ur5e_wrist3" name="ur5e_wrist3_col" />
+                                    <geom size="0.005 0.005 0.005" pos="0 0.09 0" quat="0.707107 0 0 0.707107" type="box" name="ur5e_wrist3_col2"/>
+                                    <body name="ur5e_right_hand" pos="0 0.098 0" quat="0.707 -0.707 0 0" >
+                                        <!-- This camera points out from the eef. -->
+                                        <camera mode="fixed" name="ur5e_eye_in_hand" pos="0.05 0 0" quat="0 0.707108 0.707108 0" fovy="75"/>
+                                        <!-- To add gripper -->
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+</mujoco>
