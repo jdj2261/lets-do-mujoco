@@ -82,7 +82,7 @@ Demo is only available in mujoco version 2.0 or higher.
       $ pip install -U 'mujoco-py<2.1,>=2.0'
       ~~~
 
-    - for version 2.1 (mujoco-version: 2.0.2.13)
+    - for version 2.1
 
       ~~~
       $ pip install -U 'mujoco-py<2.2,>=2.1'
@@ -132,10 +132,9 @@ Demo is only available in mujoco version 2.0 or higher.
     $ sudo apt install libfcl-dev
     ~~~
 
-  - Install python-fcl and pykin using pip
+  - Install pykin using pip
 
     ~~~
-    $ pip install python-fcl
     $ pip install pykin
     ~~~
 
